@@ -1,0 +1,47 @@
+version: '2'
+
+services:
+  proxy:
+    image: jwilder/nginx-proxy
+    container_name: proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs:ro
+      - proxy-vhost:/etc/nginx/vhost.d
+      - proxy-html:/usr/share/nginx/html
+
+  proxy-tls-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs:rw
+      - proxy-vhost:/etc/nginx/vhost.d
+      - proxy-html:/usr/share/nginx/html
+
+  jenkins:
+    image: jenkins
+    container_name: jenkins
+    restart: unless-stopped
+    environment:
+      JAVA_OPTS: "-Djava.awt.headless=true"
+      VIRTUAL_HOST: ${DOMAIN}
+      HTTPS_METHOD: redirect
+      VIRTUAL_PORT: '8080'
+      LETSENCRYPT_HOST: ${DOMAIN}
+      LETSENCRYPT_EMAIL: 
+    ports:
+      - "8080"
+      - "50000"
+    volumes:
+    - jenkins-home:/var/jenkins_home
+
+volumes:
+  certs:
+  proxy-vhost:
+  proxy-html:
+  jenkins-home:

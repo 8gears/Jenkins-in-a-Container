@@ -4,6 +4,8 @@ A container composition of Jenkins with a reverse Proxy (Nginx) and TLS (Let's E
 
 All together in a single command that runs out of the box.
 
+This compose is using official Jenkins Docker Image and jwilder/nginx-proxy with jrcs/letsencrypt-nginx-proxy-companion.
+
 # Run
 
 You need to define a domain name under which Jenkins should be reachable.

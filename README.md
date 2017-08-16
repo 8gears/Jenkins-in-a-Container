@@ -9,7 +9,7 @@ This compose is using official Jenkins Docker Image and jwilder/nginx-proxy with
 # Run
 
 You need to define a domain name under which Jenkins should be reachable.
-An option is to create a .env file [example](.env) or to define an environment variable `export DOMAIN=ci.example.or``
+An option is to create a .env file [example](.env) or to define an environment variable `export DOMAIN=ci.example.or`
 
 ```
 docker-compose -f https://raw.githubusercontent.com/8gears/Jenkins-in-a-Container/master/docker-compose.yml up -d 
